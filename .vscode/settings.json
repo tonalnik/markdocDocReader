@@ -1,0 +1,37 @@
+{
+	"cSpell.enableFiletypes": [
+		"!asciidoc",
+		"!c",
+		"!cpp",
+		"!csharp",
+		"!css",
+		"!go",
+		"!handlebars",
+		"!haskell",
+		"!jade",
+		"!java",
+		"!javascript",
+		"!javascriptreact",
+		"!json",
+		"!jsonc",
+		"!latex",
+		"!less",
+		"!php",
+		"!pug",
+		"!python",
+		"!restructuredtext",
+		"!rust",
+		"!scala",
+		"!scss",
+		"!typescript",
+		"!typescriptreact",
+		"!yml"
+	],
+	"editor.tabCompletion": "on",
+	"search.exclude": {
+		"./.next/**": true,
+		"./node_modules/**": true
+	},
+	"search.searchEditor.reusePriorSearchConfiguration": true,
+	"cSpell.language": "en,ru"
+}

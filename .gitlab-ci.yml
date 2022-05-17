@@ -1,0 +1,96 @@
+image: docker:stable
+
+stages:
+    - build
+    - test
+    - deploy
+
+variables:
+    IMAGE_ARG_VARIABLE: ""
+    IMAGE_TAG_VARIABLE: ""
+
+services:
+    - docker:dind
+
+workflow:
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "develop"'
+          variables:
+              IMAGE_ARG_VARIABLE: "--build-arg BASE_PATH=/-develop"
+              IMAGE_TAG_VARIABLE: ":develop"
+        - if: '$CI_COMMIT_BRANCH == "master"'
+        - when: never
+
+build:
+    stage: build
+    script:
+        - docker info
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY/ics/doc-reader$IMAGE_TAG_VARIABLE $IMAGE_ARG_VARIABLE .
+        - docker push $CI_REGISTRY/ics/doc-reader$IMAGE_TAG_VARIABLE
+        - docker logout $CI_REGISTRY
+
+build-app:
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "master"'
+    stage: build
+    script:
+        - docker info
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker build -t $CI_REGISTRY/ics/doc-reader:app -f application/Dockerfile .
+        - docker push $CI_REGISTRY/ics/doc-reader:app
+        - docker logout $CI_REGISTRY
+
+test:
+    image: $CI_REGISTRY/ics/doc-reader$IMAGE_TAG_VARIABLE
+    stage: test
+    needs: [build]
+    script:
+        - "cd /app/reader/"
+        - "npm run test"
+        - "mv junit.xml $CI_PROJECT_DIR/junit.xml"
+    artifacts:
+        when: always
+        paths:
+            - junit.xml
+        expire_in: 1 week
+        reports:
+            junit:
+                - junit.xml
+
+deploy:
+    image: icsit/ansible
+    tags:
+        - docker
+    stage: deploy
+    needs: [test]
+    before_script:
+        - mkdir ~/.ssh
+        - cp $RSA_KEY ~/.ssh/id_rsa
+        - cp $RSA_PUB_KEY ~/.ssh/id_rsa.pub
+        - ssh-keyscan -t rsa gitlab.ics-it.ru >> ~/.ssh/known_hosts
+        - chmod 400 ~/.ssh/id_rsa
+        - export ANSIBLE_HOST_KEY_CHECKING=False
+    script:
+        - cd ansible
+        - ansible-playbook -i hosts deploy_$CI_COMMIT_BRANCH.yml
+
+deploy-app:
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "master"'
+    image: icsit/ansible
+    tags:
+        - docker
+    stage: deploy
+    needs: [build-app, test]
+    before_script:
+        - mkdir ~/.ssh
+        - cp $RSA_KEY ~/.ssh/id_rsa
+        - cp $RSA_PUB_KEY ~/.ssh/id_rsa.pub
+        - ssh-keyscan -t rsa gitlab.ics-it.ru >> ~/.ssh/known_hosts
+        - chmod 400 ~/.ssh/id_rsa
+        - export ANSIBLE_HOST_KEY_CHECKING=False
+    script:
+        - cd application
+        - cd ansible
+        - ansible-playbook -i hosts deploy.yml

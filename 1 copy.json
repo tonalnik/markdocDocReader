@@ -1,0 +1,14 @@
+{
+	"$$mdtype": "Tag",
+	"name": "article",
+	"attributes": {},
+	"children": [
+		{ "$$mdtype": "Tag", "name": "h1", "attributes": {}, "children": ["Hello world."] },
+		{
+			"$$mdtype": "Tag",
+			"name": "blockquote",
+			"attributes": {},
+			"children": [{ "$$mdtype": "Tag", "name": "p", "attributes": {}, "children": ["My first Markdoc page"] }]
+		}
+	]
+}

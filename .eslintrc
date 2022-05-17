@@ -1,0 +1,29 @@
+{
+	"env": {
+		"browser": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"plugin:react/recommended",
+		"plugin:promise/recommended"
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": "tsconfig.json",
+		"tsconfigRootDir": "."
+	},
+	"plugins": ["@typescript-eslint", "react", "react-hooks", "promise"],
+	"rules": {
+		"@typescript-eslint/require-await": "off",
+		// "@typescript-eslint": "off",
+		// "react/no-unescaped-entities": "off",
+    	// "@next/next/no-page-custom-font": "off",
+		"react/prop-types": "off",
+		// "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"no-mixed-spaces-and-tabs": [2, "smart-tabs"]
+	}
+}

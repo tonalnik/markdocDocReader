@@ -1,0 +1,26 @@
+{
+	"$$mdtype": "Tag",
+	"name": "article",
+	"attributes": {},
+	"children": [
+		{ "$$mdtype": "Tag", "name": "h1", "attributes": {}, "children": ["Hello world."] },
+		{
+			"$$mdtype": "Tag",
+			"name": "pre",
+			"attributes": { "data-language": "java-script" },
+			"children": ["Test text\n"]
+		},
+		{
+			"$$mdtype": "Tag",
+			"name": "blockquote",
+			"attributes": {},
+			"children": [{ "$$mdtype": "Tag", "name": "p", "attributes": {}, "children": ["My first Markdoc page"] }]
+		},
+		{
+			"$$mdtype": "Tag",
+			"name": "Test_tag",
+			"attributes": { "title": "Hey you!", "icon": "note" },
+			"children": [{ "$$mdtype": "Tag", "name": "p", "attributes": {}, "children": ["I have a message for you"] }]
+		}
+	]
+}
