@@ -6,9 +6,15 @@
 		{ "$$mdtype": "Tag", "name": "h1", "attributes": {}, "children": ["Hello world."] },
 		{
 			"$$mdtype": "Tag",
-			"name": "pre",
-			"attributes": { "data-language": "java-script" },
-			"children": ["Test text\n"]
+			"name": "Fence",
+			"attributes": { "language": "java-script" },
+			"children": ["Test text\nTest text 2\nText text 3\n"]
+		},
+		{
+			"$$mdtype": "Tag",
+			"name": "p",
+			"attributes": {},
+			"children": [{ "$$mdtype": "Tag", "name": "code", "attributes": {}, "children": ["Inline text here"] }]
 		},
 		{
 			"$$mdtype": "Tag",

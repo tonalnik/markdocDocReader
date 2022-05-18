@@ -2,7 +2,11 @@
 
 ```java-script
 Test text
+Test text 2
+Text text 3
 ```
+
+`Inline text here`
 
 > My first Markdoc page
 
